@@ -7,6 +7,12 @@
   <groupId>it.academy</groupId>
   <artifactId>maven-quickstart</artifactId>
   <version>1.0-SNAPSHOT</version>
+    <developers>
+        <developer>
+            <name>Andrei Trukhanovich</name>
+            <email>deathexedin@gmail.com</email>
+        </developer>
+    </developers>
 
   <name>maven-quickstart</name>
   <!-- FIXME change it to the project's website -->
