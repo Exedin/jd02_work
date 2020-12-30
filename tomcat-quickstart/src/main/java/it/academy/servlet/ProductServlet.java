@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet (name="ProductServlet", urlPatterns = "/products")
@@ -33,11 +34,25 @@ public class ProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-
         try {
+        String id= req.getParameter("id");
+        final List<ProductSpec> productSpecs;
+        ProductSpecDao productSpecDao= daoFactory.getProductSpecDao();
+        if (id== null){
+            productSpecs=productSpecDao.readAll();
+        }
+        else {
+            ProductSpec productSpec=null;
+            try {
+                productSpec = productSpecDao.read(Integer.parseInt(id));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            productSpecs= productSpec!=null?List.of(productSpec): Collections.emptyList();
+        }
             PrintWriter writer=resp.getWriter();
-            ProductSpecDao productSpecDao= daoFactory.getProductSpecDao();
-            final List<ProductSpec> productSpecs=productSpecDao.readAll();
+//            ProductSpecDao productSpecDao= daoFactory.getProductSpecDao();
+//            final List<ProductSpec> productSpecs=productSpecDao.readAll();
             for (ProductSpec product : productSpecs) {
                 System.out.println("id="+product.getId()+" name="+product.getProductName()+
                         " details="+product.getProductDetails());
