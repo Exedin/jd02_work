@@ -13,9 +13,12 @@ public class DaoFactory {
     }
 
     public ProductSpecDao getProductSpecDao () throws SQLException {
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/product",
-                "root",
-                "1234");
+//        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/product",
+//                "root",
+//                "1234");
+                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/product?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+                        "root",
+                "root");
         return new ProductSpecDaoImpl(connection);
     }
 

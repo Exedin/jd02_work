@@ -15,6 +15,6 @@ public class EchoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        final PrintWriter writer = resp.getWriter();
-       writer.println("Hello from Echo servlet!"+ new Date());
+       writer.println("Hello from Echo servlet! HOMEWORK TEST"+ new Date());
     }
 }
