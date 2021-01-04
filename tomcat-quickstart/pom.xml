@@ -59,27 +59,28 @@
                     <password>tomcat</password>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>3.5.3</version>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>update</goal>
-                        </goals>
-                        <configuration>
-                            <changeLogFile>src/main/resources/changelog-product.xml</changeLogFile>
-                            <driver>com.mysql.cj.jdbc.Driver</driver>
+<!--            <plugin>-->
+<!--                <groupId>org.liquibase</groupId>-->
+<!--                <artifactId>liquibase-maven-plugin</artifactId>-->
+<!--                <version>3.5.3</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>process-resources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>update</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <changeLogFile>src/main/resources/changelog-product.xml</changeLogFile>-->
+<!--                            <driver>com.mysql.cj.jdbc.Driver</driver>-->
+<!--&lt;!&ndash;                            <url>jdbc:mysql://localhost:3306/product?serverTimezone=UTC&amp;createDatabaseIfNotExist=true</url>&ndash;&gt;-->
 <!--                            <url>jdbc:mysql://localhost:3306/product?serverTimezone=UTC&amp;createDatabaseIfNotExist=true</url>-->
-                            <url>jdbc:mysql://localhost:3306/product?serverTimezone=UTC&amp;createDatabaseIfNotExist=true</url>
-                            <username>root</username>
-                            <password>root</password>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--                            <username>root</username>-->
+<!--&lt;!&ndash;                            <password>root</password>&ndash;&gt;-->
+<!--                            <password>1234</password>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
