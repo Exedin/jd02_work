@@ -32,10 +32,17 @@ public class PersonTest {
     public void create(){
         //Given
         Person person=new Person();
-        person.setId(1L);
+//        person.setId(1L);
         person.setName("Natalia");
         person.setSecondName("Ivanova");
         person.setDateOfBirth(Date.valueOf("1980-01-01"));
+        person.setStatus(Status.NEW);
+        person.setComment(new String[]{"Comment1", "Comment2"});
+        ShopUser shopUser=new ShopUser();
+        shopUser.setUsername("n_ivanova");
+        shopUser.setPassword("secret");
+
+        person.setShopUser(shopUser);
 
         //When
         Session session = factory.openSession();
@@ -43,6 +50,7 @@ public class PersonTest {
         Serializable id=null;
         try {
             tx = session.beginTransaction();
+            session.save(shopUser);
             id = session.save(person);
             tx.commit();
         }
@@ -62,8 +70,9 @@ public class PersonTest {
     @Test
     public void delete (){
         //Given
+        String uuid="4028e74a773a5bbc01773a5bbe0b0000";
         Session session = factory.openSession();
-        Person person = session.get(Person.class, 1L);
+        Person person = session.get(Person.class, uuid);
         //When
         Transaction tx=null;
         try {
@@ -77,7 +86,7 @@ public class PersonTest {
         }
 
         //Then
-        assertNull(session.get(Person.class, 1L));
+        assertNull(session.get(Person.class, uuid));
         session.close();
     }
 

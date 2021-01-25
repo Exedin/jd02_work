@@ -1,17 +1,25 @@
 package it.academy.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.sql.Date;
-import java.util.Objects;
+import org.hibernate.annotations.GenericGenerator;
 
+import lombok.*;
+
+import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Person {
 
     @Id
-    private Long id;
+    @GeneratedValue(generator = "uuid-generator")
+    @GenericGenerator(name = "uuid-generator", strategy = "uuid")
+    private String personId;
 
     private String name;
 
@@ -19,58 +27,20 @@ public class Person {
 
     private Date dateOfBirth;
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", secondName='" + secondName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                '}';
-    }
+    @ElementCollection
+    @OrderColumn(name="C_ORDER")
+    private String[] comment;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(name, person.name) && Objects.equals(secondName, person.secondName) && Objects.equals(dateOfBirth, person.dateOfBirth);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, secondName, dateOfBirth);
-    }
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @OneToOne
+    @JoinColumn(name = "SHOP_USER_ID")
+    private ShopUser shopUser;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+}
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSecondName() {
-        return secondName;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
+enum Status{
+    NEW, UPDATED, DELETED
 }
