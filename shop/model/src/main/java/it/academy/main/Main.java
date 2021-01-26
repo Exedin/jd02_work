@@ -12,33 +12,33 @@ import java.sql.Date;
 
 public class Main {
     public static void main(String[] args) {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure()
-                .build();
-        SessionFactory factory=new MetadataSources(registry)
-                .buildMetadata()
-                .buildSessionFactory();
+        StandardServiceRegistry registry =
+                new StandardServiceRegistryBuilder()
+                        .configure()
+                        .build();
+        SessionFactory factory =
+                new MetadataSources(registry)
+                        .buildMetadata()
+                        .buildSessionFactory();
 
-        Person person=new Person();
-//        person.setId(1L);
+        Person person = new Person();
         person.setName("Natalia");
         person.setSecondName("Ivanova");
         person.setDateOfBirth(Date.valueOf("1980-01-01"));
 
-
         Session session = factory.openSession();
-        Transaction tx=null;
+        Transaction tx = null;
         try {
             tx = session.beginTransaction();
+            //do some work
             session.save(person);
             tx.commit();
-        }
-        catch (Exception e) {
-            if (tx!=null) tx.rollback();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
             throw e;
-        }
-        finally {
+        } finally {
             session.close();
         }
+
     }
 }

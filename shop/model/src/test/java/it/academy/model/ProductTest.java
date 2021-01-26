@@ -1,13 +1,7 @@
 package it.academy.model;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.Serializable;
@@ -15,68 +9,51 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
-public class ProductTest {
-    private SessionFactory factory;
+public class ProductTest extends BaseTest {
 
-    @Before
-    public void setUp() throws Exception {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure("hibernate.cfg.test.xml")
-                .build();
-        factory=new MetadataSources(registry)
-                .buildMetadata()
-                .buildSessionFactory();
-
-    }
     @Test
-    public void create(){
-
-        //Give
+    public void create() {
+        //Given
         Product product = new Product();
-        product.setProductName("Apple IPhone");
-        product.setDescription("iPhone 12 512 gb");
+        product.setProductName("Apple iPhone");
+        product.setDescription("iPhone 12 512GB");
 
-        ProductPrice productPrice1=new ProductPrice();
+        ProductPrice productPrice1 = new ProductPrice();
         productPrice1.setProduct(product);
         productPrice1.setPriceValue(BigDecimal.valueOf(5990.99));
         productPrice1.setCurrency(Currency.BYN);
 
-        ProductPrice productPrice2=new ProductPrice();
+        ProductPrice productPrice2 = new ProductPrice();
         productPrice2.setProduct(product);
-        productPrice2.setPriceValue(BigDecimal.valueOf(2000.99));
-        productPrice2.setCurrency(Currency.BYN);
+        productPrice2.setPriceValue(BigDecimal.valueOf(2000.22));
+        productPrice2.setCurrency(Currency.EUR);
 
-        List<ProductPrice> prices=new ArrayList<>(2);
+        List<ProductPrice> prices = new ArrayList<>(2);
         prices.add(productPrice1);
         prices.add(productPrice2);
-        product.setProductPrice(prices);
+        product.setProductPrices(prices);
 
-
-
+        //When
         Session session = factory.openSession();
-        Transaction tx=null;
-        Serializable id=null;
+        Transaction tx = null;
+        Serializable id;
         try {
             tx = session.beginTransaction();
+            //do some work
             id = session.save(product);
             session.save(productPrice1);
             session.save(productPrice2);
             tx.commit();
-        }
-        catch (Exception e) {
-            if (tx!=null) tx.rollback();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
             throw e;
         }
-        finally {
-            session.close();
-        }
-        //then
+
+        //Then
         assertNotNull(id);
     }
-    @After
-    public void tearDown() throws Exception {
-        factory.close();
-    }
+
+
 }
