@@ -2,6 +2,7 @@ package it.academy.model;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.junit.Test;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class ProductTest extends BaseTest {
 
@@ -53,6 +54,46 @@ public class ProductTest extends BaseTest {
 
         //Then
         assertNotNull(id);
+    }
+
+    @Test
+    public void read(){
+    //given
+            cleanInsert("ProductTest.xml");
+            //when
+            Session session=factory.openSession();
+        List<Product> products = session.createQuery("from Product", Product.class).list();
+        assertNotNull(products);
+        assertEquals(3, products.size());
+        List<ProductPrice> prices=products.stream().filter(product -> "2c931081773acfd101773acfd4180002"
+                .equals(product.getProductId()))
+                .map(product -> product.getProductPrices())
+                .findFirst()
+                .orElse(null);
+        assertNotNull(prices);
+        assertEquals(1, prices.size());
+        deleteDataset();
+        session.close();
+    }
+    @Test
+    public void delete(){
+        //given
+        cleanInsert("ProductTest.xml");
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        List<Product> products = session.createQuery("from Product", Product.class).list();
+        List<ProductPrice>prices=session.createQuery("from ProductPrice ", ProductPrice.class).list();
+
+
+        //when
+        prices.forEach(session::delete);
+        products.forEach(product -> session.delete(product));
+        transaction.commit();
+        //then
+        assertEquals(0,session.createQuery("from Product").list().size());
+        session.close();
+
+
     }
 
 
