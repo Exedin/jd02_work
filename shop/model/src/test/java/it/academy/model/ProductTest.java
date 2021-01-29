@@ -2,9 +2,13 @@ package it.academy.model;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.junit.Test;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -93,6 +97,31 @@ public class ProductTest extends BaseTest {
         assertEquals(0,session.createQuery("from Product").list().size());
         session.close();
 
+
+    }
+
+    @Test
+    public void queryProductPrice (){
+        //given
+        cleanInsert("ProductTest.xml");
+        //when
+        //old Criteria API
+        List priceValue = factory.openSession()
+                .createCriteria(ProductPrice.class)
+                .add(Restrictions.eq("priceValue", BigDecimal.valueOf(5990.99)))
+                .list();
+
+        //new Criteria API in JPA
+        Session session = factory.openSession();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<ProductPrice> query = cb.createQuery(ProductPrice.class);
+        Root<ProductPrice> root = query.from(ProductPrice.class);
+        query.where(cb.equal(root.get("priceValue"), BigDecimal.valueOf(5990.99)));
+        List<ProductPrice> list = session.createQuery(query).list();
+
+        //then
+        assertEquals(1,priceValue.size());
+        assertEquals(1,list.size());
 
     }
 

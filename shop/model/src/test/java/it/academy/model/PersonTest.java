@@ -2,6 +2,7 @@ package it.academy.model;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.junit.Test;
 
 import java.io.Serializable;
@@ -89,5 +90,40 @@ public class PersonTest extends BaseTest {
         deleteDataset();
     }
 
+    @Test
+    public void queryShopUser(){
+        //given
+        cleanInsert("PersonShopUserTest.xml");
+        List<ShopUser> list = factory.openSession()
+                .createQuery("select p.shopUser from Person as p", ShopUser.class)
+                .list();
+        assertNotNull(list);
+        assertEquals(3,list.size());
+    }
+
+    @Test
+    public void copy(){
+        //given
+        cleanInsert("PersonTest.xml");
+        //when
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        int count = session.createQuery("insert into Person (personId, name, secondName, dateOfBirth, status)" +
+                "select '2c968187773a55a101773a55a3a10001', name, secondName, dateOfBirth, status " +
+                "from Person where personId=:personId")
+                .setParameter("personId", "2c968187773a55a101773a55a3a10000" )
+                .executeUpdate();
+        transaction.commit();
+        //then
+        assertEquals(1,count);
+        assertEquals((Long)2l,session
+                .createQuery("select count (personId) from Person ", Long.class)
+//              для ограничения выборки
+//                .setMaxResults(1)
+                .list()
+                .get(0)
+        );
+        session.close();
+    }
 }
 
