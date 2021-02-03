@@ -3,5 +3,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="promoService" class="it.academy.service.PromoService"/>
+    <bean id="promoService" class="it.academy.service.PromoService"
+          factory-method="create"
+            init-method="init"
+            destroy-method="destroy">
+        <property name="name" value="promoService"/>
+        <property name="promoDao" ref="PromoDaoImpl"/>
+    </bean>
+
+    <bean id="PromoDaoImpl" class="it.academy.dao.PromoDaoImpl">
+        <constructor-arg value="true"/>
+    </bean>
 </beans>

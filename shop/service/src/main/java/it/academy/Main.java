@@ -5,12 +5,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Main {
-    public static void main(String[] args) {
-        ApplicationContext ac=
+    public static void main(String[] args) throws InterruptedException {
+        ApplicationContext ac =
                 new ClassPathXmlApplicationContext("beans.xml");
-        Object promoService = ac.getBean("promoService");
+        PromoService promoService = (PromoService)ac.getBean("promoService");
         System.out.println(promoService);
 
-        ((PromoService)promoService).printPromo();
+        promoService.printPromo();
+        ((ClassPathXmlApplicationContext)ac).close();
+
     }
 }
