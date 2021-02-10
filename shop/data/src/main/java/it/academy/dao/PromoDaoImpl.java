@@ -26,8 +26,8 @@ public class PromoDaoImpl implements PromoDao {
         promo2.setDescription("Promo2");
         promo2.setPromoId("2");
         Promo promo3=new Promo();
-        promo2.setDescription("Promo3");
-        promo2.setPromoId("3");
+        promo3.setDescription("Promo3");
+        promo3.setPromoId("3");
 
         return List.of(promo1, promo2, promo3);
     }

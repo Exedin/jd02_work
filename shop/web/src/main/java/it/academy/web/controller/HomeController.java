@@ -1,7 +1,11 @@
 package it.academy.web.controller;
 
 
+import it.academy.service.PromoService;
+import it.academy.service.SearchService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,13 +17,24 @@ import java.util.logging.Logger;
 public class HomeController {
 
     private static  final Logger log=Logger.getLogger(HomeController.class.getName());
+    @Autowired
+    SearchService searchService;
+
+    @Autowired
+    PromoService promoService;
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public ModelAndView home(ModelAndView modelAndView, @RequestParam(name = "param", required = false) String param){
-        log.info("Calling home()");
-        modelAndView.addObject("paramValue", param);
-        modelAndView.addObject("userName", "Guest");
-        modelAndView.setViewName("index");
-        return modelAndView;
+    public String home(@RequestParam(name = "searchParam", required = false) String param,
+                             Model model){
+        log.info("Calling home(): searchParam: "+ param);
+
+        if (param!=null&&!"".equals(param.trim())){
+            model.addAttribute("searchResult", searchService.searchProducts(param));
+            return "search-result";
+        }
+
+        model.addAttribute("promoList", promoService.findAllPromo());
+
+        return "index";
     }
 }

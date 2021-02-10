@@ -25,16 +25,18 @@ public class PromoServiceTest {
     public void findAllPromo() {
         //given
         PromoDaoImpl promoDaoMock = Mockito.mock(PromoDaoImpl.class);
+        Promo promo= new Promo();
+        promo.setDescription("Promo1");
         Mockito
                 .when(promoDaoMock.findAllPromo())
-                .thenReturn(List.of(new Promo(), new Promo()));
+                .thenReturn(List.of(promo, promo));
         promoService.setPromoDao(promoDaoMock);
         //when
         List<Promo> allPromo = promoService.findAllPromo();
         //then
         assertNotNull(allPromo);
         assertEquals(2, allPromo.size());
-        assertEquals("New Promo", allPromo.get(0).getDescription());
+        assertEquals("Promo1", allPromo.get(0).getDescription());
         assertNull(allPromo.get(1).getPromoId());
     }
 }

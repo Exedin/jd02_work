@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Search result</title>
 </head>
 <body>
 <%--Navigation bar--%>
@@ -51,24 +51,26 @@
 </nav>
 
 
-<h1>Please take a look on our promo!</h1>
+<h1>Found products</h1>
 <%--Promo product list--%>
 <table class="table">
     <thead>
     <tr>
         <th scope="col">#</th>
-        <th scope="col">Promo code</th>
+        <th scope="col">Product code</th>
+        <th scope="col">Name</th>
         <th scope="col">Description</th>
 
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${promoList}" var="promoItem">
-    <tr>
-        <th scope="row">#</th>
-        <td>${promoItem.promoId}</td>
-        <td>${promoItem.description}</td>
-    </tr>
+    <c:forEach items="${searchResult}" var="productItem">
+        <tr>
+            <th scope="row"><a href="/web/product/${productItem.productId}">Open</a></th>
+            <td>${productItem.productId}</td>
+            <td>${productItem.productName}</td>
+            <td>${productItem.description}</td>
+        </tr>
     </c:forEach>
     </tbody>
 </table>
