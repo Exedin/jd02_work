@@ -26,12 +26,7 @@ public class HomeController {
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String home(@RequestParam(name = "searchParam", required = false) String param,
                              Model model){
-        log.info("Calling home(): searchParam: "+ param);
 
-        if (param!=null&&!"".equals(param.trim())){
-            model.addAttribute("searchResult", searchService.searchProducts(param));
-            return "search-result";
-        }
 
         model.addAttribute("promoList", promoService.findAllPromo());
 
