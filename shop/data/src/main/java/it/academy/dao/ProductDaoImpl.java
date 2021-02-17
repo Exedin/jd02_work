@@ -1,6 +1,8 @@
 package it.academy.dao;
 
 import it.academy.model.Product;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,6 +13,12 @@ import java.util.NoSuchElementException;
 @Repository
 public class ProductDaoImpl implements ProductDao {
 
+    private SessionFactory sessionFactory;
+
+    @Autowired
+    public ProductDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     private static List<Product> products=List.of(
             Product.builder()
