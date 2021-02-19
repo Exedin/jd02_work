@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ContextConfiguration(classes = WebShopConfiguration.class)
 @WebAppConfiguration
@@ -52,13 +52,13 @@ public class HomeControllerTest {
         map.add("productName", "TestProduct");
         map.add("description", "TestDescriptions");
 
-        ModelAndView modelAndView = mockMvc.perform(post("/product/add")
+        ModelAndView modelAndView = mockMvc.perform(MockMvcRequestBuilders.post("/product/add")
                 .params(map))
                 .andReturn()
                 .getModelAndView();
 
         System.out.println(modelAndView.getViewName());
-
+        assertTrue(modelAndView.getViewName().contains("redirect:/product"));
     }
 
 }

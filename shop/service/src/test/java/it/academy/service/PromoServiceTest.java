@@ -1,6 +1,7 @@
 package it.academy.service;
 
 import it.academy.AppConfig;
+import it.academy.dao.DaoConfiguration;
 import it.academy.dao.PromoDaoImpl;
 import it.academy.model.Promo;
 import org.junit.runner.RunWith;
@@ -14,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = {AppConfig.class, DaoConfiguration.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PromoServiceTest {
 
