@@ -10,7 +10,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -18,6 +22,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource(value = "classpath:datasource.properties")
+@EnableTransactionManagement
 public class DaoConfiguration {
 
     @Autowired
@@ -50,6 +55,14 @@ public class DaoConfiguration {
 
         sessionFactoryBean.setHibernateProperties(properties);
         return sessionFactoryBean;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(SessionFactory sessionFactory){
+        HibernateTransactionManager transactionManager=
+                new HibernateTransactionManager(sessionFactory);
+        return transactionManager;
+
     }
 
 
