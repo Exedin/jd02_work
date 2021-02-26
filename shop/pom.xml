@@ -12,7 +12,7 @@
         <module>data</module>
         <module>service</module>
         <module>web</module>
-        <module>api</module>
+<!--        <module>api</module>-->
     </modules>
     <packaging>pom</packaging>
 
