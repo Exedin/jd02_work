@@ -1,6 +1,7 @@
 package it.academy.rest;
 
 
+import io.swagger.annotations.ApiOperation;
 import it.academy.model.Product;
 import it.academy.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,14 @@ public class ProductRestService {
     }
 
     @PostMapping(value = "products/")
+    @ApiOperation("create product")
     public ResponseEntity <Product> create(@RequestBody Product product){
         productService.saveNewProduct(product);
         return new ResponseEntity<>(product,HttpStatus.CREATED);
     }
 
     @PutMapping("/product/{id}")
+    @ApiOperation("update product")
     public ResponseEntity<Product> updateProduct(@PathVariable String id,
                                                  @RequestBody Product product){
         return  new ResponseEntity<>(product,HttpStatus.OK);
