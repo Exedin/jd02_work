@@ -46,12 +46,13 @@ public class DaoConfiguration {
         LocalSessionFactoryBean sessionFactoryBean= new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
         sessionFactoryBean.setAnnotatedClasses(
-                Person.class, Product.class, ProductPrice.class, Promo.class, ShopUser.class
+                Person.class, Product.class, ProductPrice.class, Promo.class, ShopUser.class,
+                Count.class
         );
         Properties properties = new Properties();
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");
 
         sessionFactoryBean.setHibernateProperties(properties);
         return sessionFactoryBean;
