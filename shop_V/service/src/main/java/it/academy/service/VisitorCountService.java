@@ -5,7 +5,6 @@ import it.academy.model.VisitorCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -20,9 +19,8 @@ public class VisitorCountService {
         return visitorCount == null ? 0 : visitorCount.getCount();
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE, propagation = Propagation.REQUIRED)
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public int updateCount() {
-
         int id = 1;
         VisitorCount visitorCount = visitorCountDao.readCount(id);
         if (visitorCount == null) {
