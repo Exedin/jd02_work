@@ -2,6 +2,7 @@ package it.academy.web.controller;
 
 import it.academy.dto.PromoDto;
 import jakarta.validation.Valid;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,8 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.logging.Logger;
+
 @Controller
 public class PromoController {
+    public static final Logger log =
+            Logger.getLogger(ProductController.class.getName());
 
     @GetMapping("/promo")
     public String showPromoPage(Model model) {
@@ -19,10 +24,13 @@ public class PromoController {
     }
 
     @PostMapping("/promo/add")
+    @Secured("ADMIN")
     public String addNewPromo(
+
             @Valid @ModelAttribute("promoDto") PromoDto promoDto,
             BindingResult bindingResult
     ) {
+        log.info("Call add new promo");
         if (bindingResult.hasErrors()) {
             return "add-promo";
         }
