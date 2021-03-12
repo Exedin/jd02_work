@@ -24,7 +24,7 @@ public class PromoController {
     }
 
     @PostMapping("/promo/add")
-    @Secured("ADMIN")
+    @Secured("ROLE_ADMIN")
     public String addNewPromo(
 
             @Valid @ModelAttribute("promoDto") PromoDto promoDto,
